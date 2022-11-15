@@ -1,22 +1,33 @@
-const express = require('express')
-const cors = require('cors')
-const route = express.Router()
-const app = express()
+const express = require("express");
+const cors = require("cors");
+const route = express.Router();
+const app = express();
 
 //CORS middleware
 var allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
-  res.header('Access-Control-Allow-Headers', 'Content-Type')
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,PATCH");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
 
-  next()
-}
+  next();
+};
 
-const ProductsController = require('../controllers/products')
+const ProductsController = require("../controllers/products");
 
 // app.use(cors({ origin: '*', credentials: true }))
-app.use(allowCrossDomain)
+app.use(allowCrossDomain);
 
-route.post('/api/products/create', ProductsController.createProduct)
+route.post("/api/products/create", ProductsController.createProduct);
+route.get("/api/products/getAllProducts", ProductsController.getAllProducts);
+route.get(
+  "/api/products/getProductById/:productId",
+  ProductsController.getProductById
+);
+route.delete(
+  "/api/products/deleteProductById/:productId",
+  ProductsController.deleteProductById
+);
 
-module.exports = route
+route.patch('/api/products/editProductById/:productId', ProductsController.editProduct)
+
+module.exports = route;

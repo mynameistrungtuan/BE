@@ -1,10 +1,12 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const ProductsRoute = require("./routes/products");
 
-const connection_string =
-  "mongodb+srv://admin:432001@cluster0.5tc5nfj.mongodb.net/test";
+const ProductsRoute = require("./routes/products");
+const UsersRoute = require("./routes/users");
+
+const connection_string = process.env.CONNECTION_STRING;
 
 mongoose.connect(connection_string, {
   useNewUrlParser: true,
@@ -17,7 +19,7 @@ const app = express();
 
 app.use(express.json());
 
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 app.listen(PORT || 3000, () => {
   console.log(`Server is running on port ${PORT}`);
@@ -34,4 +36,4 @@ database.once("connected", () => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("", ProductsRoute);
+app.use("", ProductsRoute, UsersRoute);
